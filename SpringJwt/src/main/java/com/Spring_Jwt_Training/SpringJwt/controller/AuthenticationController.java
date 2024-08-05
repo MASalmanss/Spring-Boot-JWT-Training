@@ -7,6 +7,7 @@ import com.Spring_Jwt_Training.SpringJwt.entity.User;
 import com.Spring_Jwt_Training.SpringJwt.service.AuthenticationService;
 import com.Spring_Jwt_Training.SpringJwt.service.JwtService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

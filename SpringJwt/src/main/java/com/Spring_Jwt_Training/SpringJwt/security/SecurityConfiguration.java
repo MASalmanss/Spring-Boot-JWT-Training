@@ -1,6 +1,7 @@
 package com.Spring_Jwt_Training.SpringJwt.security;
 
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -38,12 +39,13 @@ public class SecurityConfiguration {
     private HttpSecurity getHttpSecurity6v(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        authorize -> authorize.requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
+                        authorize -> authorize
+                                .requestMatchers("/auth/**").permitAll()
+                                .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
