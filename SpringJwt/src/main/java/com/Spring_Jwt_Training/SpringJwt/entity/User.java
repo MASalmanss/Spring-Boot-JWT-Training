@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -17,6 +18,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class User implements UserDetails {
 
     @Id
@@ -41,9 +43,17 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "role_id" , referencedColumnName = "id" , nullable = false)
+    private Role role;
+
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+    SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
+        return List.of(simpleGrantedAuthority);
     }
 
     @Override
@@ -76,39 +86,4 @@ public class User implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreatedAT() {
-        return createdAT;
-    }
-
-    public void setCreatedAT(Date createdAT) {
-        this.createdAT = createdAT;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
